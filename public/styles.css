@@ -1,0 +1,102 @@
+/* General page styling */
+body {
+    background: linear-gradient(135deg, #000000, #ff0000); /* Bold Marvel-inspired gradient */
+    font-family: 'Anton', sans-serif;
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+h2 {
+    font-family: 'Bangers', cursive;
+    font-size: 3em;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+/* Form styling */
+.marvel-login {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 100%;
+}
+
+label {
+    font-size: 1.2em;
+    color: #fff;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    font-size: 1.1em;
+    background-color: #ff1a1a;
+    color: #fff;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    outline: none;
+    background-color: #ff4d4d;
+}
+
+button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(255, 0, 0, 0.5);
+}
+
+button:hover {
+    background-color: #cc0000;
+}
+
+/* New user button */
+.login-button {
+    display: inline-block;
+    margin-top: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    background-color: #1a1a1a;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.login-button:hover {
+    background-color: #333333;
+}
+
+/* Image Styling */
+.login-image {
+    width: 270px; /* Adjust width as necessary */
+    height: auto; /* Keep the aspect ratio */
+    margin-bottom: 20px; /* Adds space below the image */
+    border-radius: 10px; /* Optional: Make the image have rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow to the image */
+}
+

@@ -1,0 +1,14 @@
+{
+    "database": "ucode_web",
+    "user": "otsyban",
+    "host": "localhost",
+    "password": "securepass",
+    "connectionLimit": 3,
+    "enableKeepAlive": true,
+    "keepAliveInitialDelay": 0,
+    "emailHost": "smtp.ethereal.email",
+    "emailPort": 587,
+    "emailSecure": false,
+    "emailUser": "kaycee71@ethereal.email",
+    "emailPass": "3cj56TkEeeES5A59Ad"
+}
