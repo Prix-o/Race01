@@ -12,6 +12,7 @@ body {
 
 .container {
     text-align: center;
+
 }
 
 h2 {
@@ -100,3 +101,12 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow to the image */
 }
 
+.main-container{
+    text-align: center;
+}
+
+#Find_game,#collection{
+
+    width: 200%;
+    margin-left: -50%;
+}

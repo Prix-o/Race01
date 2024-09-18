@@ -22,6 +22,10 @@ app.use(session({
 
 app.use('/', routes);
 
+app.get('/', (req,res)=>{
+    res.redirect('/login');
+})
+
 // 404 Handler
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));

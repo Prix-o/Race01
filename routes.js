@@ -3,6 +3,11 @@ const router = express.Router();
 const authController = require('./authController');
 const userController = require('./userController');
 const mainController = require('./mainController');
+const searchingController = require('./searchingController');
+const gameController = require('./gameController');
+
+
+
 const isAuthenticated = require('./authMiddleware');
 
 router.get('/login', authController.loginPage);
@@ -15,6 +20,9 @@ router.post('/register', userController.register);
 router.get('/main', isAuthenticated, mainController.mainPage);
 router.get('/reminder', isAuthenticated, authController.reminderPage);
 router.post('/reminder', isAuthenticated, authController.sendReminder);
+router.get('/searching', isAuthenticated, searchingController.searchingPage);
+router.get('/game', isAuthenticated, gameController.gamePage);
+
 
 
 module.exports = router;

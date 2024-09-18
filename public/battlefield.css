@@ -1,0 +1,249 @@
+html,body{
+    height: 100%;
+    margin: 0;
+}
+
+.field{
+    width: 85%;
+    height: 100%;
+    float: inline-start;
+
+}
+.sidebar{
+    background-image: url(assets/back_4.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 15%;
+    height: 100%;
+    float: inline-end;
+    position: relative;
+}
+.player_bar{
+    height: 20%;
+    background: rgb(25,25,25);
+    background: linear-gradient(90deg, rgba(25,25,25,1) 0%, rgba(147,147,147,1) 50%, rgba(25,25,25,1) 100%);
+    position: relative;
+}
+.play_area{
+    height: 30%;
+    background-image: url(assets/back_5.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 2px solid red;
+
+}
+.deck{
+    height: 90%;
+    margin: 1%;
+}
+.hand{
+
+    background-color: black;
+    border: 10px solid whitesmoke;
+   border-radius: 3%; 
+    width: 70%;
+    height: 70%;
+
+    position: absolute;
+    left: 11%;
+    top: 10%;
+    display: grid;
+    grid-template-columns:  auto auto auto auto auto auto auto auto auto auto auto auto auto;
+
+
+
+}
+.curency_container{
+
+
+    height: 70%;
+    width: 10%;
+    display: inline;
+    float: inline-end;
+    margin-top: 2%;
+    margin-right: 4%;
+    text-align: center;
+    vertical-align: top;
+    font-size: xx-large;
+    font-weight: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #00ccff;
+
+}
+.curency{
+    height: 80%;
+    width: 80%;
+    padding: 0;
+    margin: 0;
+
+
+}
+
+.player{
+    width: 75%;
+    height: 25%;
+    text-align: center;
+    font-size: x-large;
+    font-weight: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+
+
+}
+
+.pfp{
+    width: 80%;
+    height: 70%;
+    margin-top: 5%;
+}
+
+#user_2{
+    margin-top: 15%;
+    margin-left: 15%;
+    background-color: tomato;
+
+}
+
+#user_1{
+    margin-top: 15%;
+    margin-left: 15%;
+    background-color: lightskyblue;
+    position: absolute;
+    bottom: 5%;
+
+}
+
+.clock{
+    width: 70%;
+    height: 20%;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 400%;
+    font-weight: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: black;
+}
+#end_turn{
+    position: absolute;
+    top: 50%;
+    margin-left: -40%;
+    margin-top: -19%;
+    height: 10%;
+    width: 70%;
+    border-radius: 10%;
+    font-size: x-large;
+    font-weight: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: black;
+    text-align: left;
+    padding: 10px;
+}
+/* /////// */
+
+    .background{
+        background-color: black;
+        height: 136px;
+        width: 96px;
+        position: relative;
+    }
+    .blank{
+        background-color: white;
+        height: 30%;
+        width: 90%;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+        bottom: 5%;
+        text-align: center;
+        font-weight: bolder;
+    }
+    #charecter{
+        height: 55%;
+        width: 90%;
+        position: absolute;
+        left: 50%;
+        top: 5%;
+    
+        transform: translate(-50%);
+
+    }
+    .circle{
+        background-color: black;
+        border-radius: 0 0 100px 0;
+
+
+        height: 15%;
+        width: 25%;
+        /* border-radius: 50%; */
+        position: absolute;
+        float: left;
+        left: 0px;
+        top: 0px;
+        z-index: 1000;
+        margin-left: 0px;
+        margin-top: 2px;
+        color: white;
+
+
+
+    }
+    .health{
+        display: inline;
+        width: 50%;
+
+        position: absolute;
+        bottom: 5%;
+        left: 0;
+    }
+    .atk{
+        display: inline;
+        width: 50%;
+
+        position: absolute;
+        bottom: 5%;
+        
+    }
+    .stats{
+        background-color: blue;
+        display: flex;
+        text-align: start;
+    }
+    #health{
+        width: 30%;
+        height: 80%;
+        position: absolute;
+        left: 10%;
+    }
+    #atk{
+        width: 70%;
+        height: 150%;
+        position: absolute;
+        left: 0%;
+        margin-top: -15%;
+        margin-left: -15%;
+
+    }
+    #curr, #card_cost{
+        width: 30%;
+        height: 30%;
+        position: absolute;
+        top: 40%;
+    }
+    #curr{
+        left: 15%;
+    }
+    #card_cost{
+        font-size: 8px;
+        left: 55%;
+    }
+
+
