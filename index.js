@@ -4,6 +4,10 @@ const path = require('path');
 const app = express();
 const routes = require('./routes');
 
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io')(server)
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -31,6 +35,40 @@ app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
 });
 
-app.listen(3000, () => {
+
+let players = [];
+
+io.on('connection', (socket) => {
+    console.log('user connected:' + socket.id)
+
+
+    socket.on('find_game', () =>{
+        players.push(socket.id);
+        socket.join(`room by ${players[0]}`);
+        console.log(`user ${socket.id} start search`);
+        if (players.length == 2 ) {
+            console.log(`users ${players[1]} join ${players[0]}`);
+            
+            io.to(`room by ${players[0]}`).emit('start');
+
+        }
+
+        
+    });
+
+    socket.on("my_login", (login) =>{
+        console.log(login);
+        // socket.broadcast.emit("opp_login", login);
+        socket.to(`room by ${players[0]}`).emit("opp_login", login);
+
+    });
+});
+
+
+
+
+
+
+server.listen(3000, () => {
     console.log('Server running on http://localhost:3000');
 });

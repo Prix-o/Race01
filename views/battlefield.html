@@ -6,6 +6,7 @@
   <title>Battlrfield</title>
   <meta name="description" content="BATTLE!">
   <link rel="stylesheet" href="battlefield.css">
+  <script src="/socket.io/socket.io.js"></script>
 </head>
 
 
@@ -133,8 +134,8 @@
         </div>
         <div class="player" id="user_1">
             <img class="pfp" src="assets/pfp_blue.jpeg" alt="pfp">
-            <span id="user_2_username">name 1</span><br>
-            <span id="user_2_health">HP: 30/30</span>
+            <span id="user_1_username">name 1</span><br>
+            <span id="user_1_health">HP: 30/30</span>
 
         </div>
     </div>
@@ -143,6 +144,33 @@
 
 
 
-  <script></script>
+  <script>
+
+    let my_login =  document.getElementById("user_1_username");
+    let opp_login =  document.getElementById("user_2_username");
+
+    let socket = io();
+
+
+    socket.on('connect', () =>{
+        
+        socket.emit('find_game');
+
+    });
+
+    socket.on('start', () =>{
+
+        socket.emit("my_login", my_login.textContent)
+
+        socket.on('opp_login', (login) =>{
+            opp_login.textContent = login;
+        });
+
+    });
+
+    
+
+
+  </script>
 </body>
 </html>
