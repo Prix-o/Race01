@@ -140,9 +140,38 @@
         </div>
     </div>
 
+    <!-- timer -->
+    <script>
+        let timerInterval;
+        let timeLeft = 30;
+        function startTimer() {
+            clearInterval(timerInterval);
+    
+            timeLeft = 30;
+            document.getElementById('time').textContent = timeLeft;
+    
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('time').textContent = timeLeft;
+    
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endTurn();
+                }
+            }, 1000);
+        }
 
-
-
+        function endTurn() {
+            alert('Turn ended!');
+            startTimer(); // Restart the timer for the next turn
+        }
+    
+        document.getElementById('end_turn').addEventListener('click', () => {
+            clearInterval(timerInterval);
+            endTurn();
+        });
+        window.onload = startTimer;
+    </script>    
 
   <script>
 
