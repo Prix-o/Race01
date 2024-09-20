@@ -37,6 +37,7 @@ app.use((req, res) => {
 
 
 let players = [];
+let turn = 0;
 
 io.on('connection', (socket) => {
     console.log('user connected:' + socket.id)
@@ -50,6 +51,8 @@ io.on('connection', (socket) => {
             console.log(`users ${players[1]} join ${players[0]}`);
             
             io.to(`room by ${players[0]}`).emit('start');
+            io.to(`room by ${players[0]}`).emit('change_turn', players[turn]);
+
 
         }
 
@@ -60,6 +63,14 @@ io.on('connection', (socket) => {
         console.log(login);
         // socket.broadcast.emit("opp_login", login);
         socket.to(`room by ${players[0]}`).emit("opp_login", login);
+
+    });
+
+    socket.on("change_turn", () =>{
+        if (turn == 1) {
+            turn = 0;
+        } else turn = 1;
+        io.to(`room by ${players[0]}`).emit('change_turn', players[turn]);
 
     });
 });
