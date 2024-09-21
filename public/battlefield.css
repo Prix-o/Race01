@@ -30,6 +30,12 @@ html,body{
     background-repeat: no-repeat;
     background-size: cover;
     border: 2px solid red;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    align-content: center; 
+
+
 
 }
 .deck{
@@ -47,8 +53,12 @@ html,body{
     position: absolute;
     left: 11%;
     top: 10%;
-    display: grid;
-    grid-template-columns:  auto auto auto auto auto auto auto auto auto auto auto auto auto;
+    /* display: grid;
+    grid-template-columns:  auto auto auto auto auto auto auto auto auto auto; */
+    display: flex;
+    flex-flow: wrap;
+    justify-content: start;
+    align-content: center; 
 
 
 
@@ -154,6 +164,7 @@ html,body{
         height: 136px;
         width: 96px;
         position: relative;
+        margin-left: 3%;
     }
     .blank{
         background-color: white;
@@ -239,11 +250,15 @@ html,body{
         top: 40%;
     }
     #curr{
-        left: 15%;
+        left: 5%;
     }
     #card_cost{
-        font-size: 8px;
-        left: 55%;
+        color: #00ccff;
+        font-size: 11px;
+        left: 45%;
+        top: 30%;
     }
-
+    .name{
+        font-size: 11px;
+    }
 
