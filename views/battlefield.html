@@ -261,11 +261,12 @@
             </div>`;
     
         card.classList.add("background");
-        card.id = `${obj.id}`;
+        card.id = `opp_${obj.id}`;
     
         // Add the attack logic here
         card.addEventListener("click", () => {
             if (turn && selectedCard) {
+                console.log(`calling attack with parameters: ${selectedCard}, ${card}, ${obj}`)
                 attack(selectedCard, card, obj); // Attack this opponent's card
             }
         });
@@ -286,8 +287,12 @@
     }
     
     function attack(attackerCard, targetCard, targetObj) {
-        const attackerObj = user_deck.find(c => c.id === parseInt(attackerCard.id.split('_')[1]));
+        // const attackerObj = user_deck.find(c => c.id === parseInt(attackerCard.id.split('_')[1]));
+        const attackerObj = default_deck[parseInt(attackerCard.id.split('_')[1])];
+
+
     
+        // console.log(`check for atkobj ${attackerObj} and card obj ${targetObj}`)
         if (!attackerObj || !targetObj) {
           console.error("Invalid card selected for attack.");
           return;
@@ -332,9 +337,12 @@
         let currentHP = parseInt(opponentHealthSpan.textContent.split('/')[0].split(': ')[1]);
   
         currentHP -= attackerObj.atk;
+        currentHP = Math.max(0, currentHP);
         opponentHealthSpan.textContent = `HP: ${Math.max(0, currentHP)}/30`;
   
         console.log(`${attackerObj.name} attacked ${opponentId} directly and dealt ${attackerObj.atk} damage.`);
+
+        socket.emit("attack_opponent", currentHP);
   
         if (currentHP <= 0) {
           alert(`${opponentId} has been defeated!`);
@@ -343,7 +351,7 @@
   
         selectedCard.classList.remove('selected');
         selectedCard = null;
-      }
+    }
 
     function play_card(obj){
         const currency = document.getElementById("player_1_currency")
@@ -480,22 +488,52 @@
 
     });
 
+    socket.on("got_attacked", (newHP) => {
+
+        if(!turn){
+            const userHealthSpan = document.getElementById(`user_1_health`);
+            let currentHP = parseInt(userHealthSpan.textContent.split('/')[0].split(': ')[1]);
     
-    socket.on('opponent_attacked', ({ attackerId, targetId, attackerDamage }) => {
-        const targetCard = document.getElementById(`card_${targetId}`);
-        const targetObj = user_deck.find(c => c.id === targetId);
+
+            currentHP = newHP;
+            userHealthSpan.textContent = `HP: ${Math.max(0, currentHP)}/30`;
     
-        if (targetCard && targetObj) {
-            targetObj.hp -= attackerDamage;
-            const healthSpan = targetCard.querySelector('#card_health');
-            healthSpan.textContent = targetObj.hp;
-    
-            if (targetObj.hp <= 0) {
-                targetCard.remove();
-                console.log(`${targetObj.name} has been defeated.`);
+            if (currentHP <= 0) {
+            alert(`You have been defeated!`);
+            console.log(`$You hae been defeated.`);
             }
         }
+       
+
+    })
+
+    
+    socket.on('opponent_attacked_card', ({ attackerId, targetId, attackerDamage }) => {
+        console.log("card got attacked");
+        if(!turn){
+            const targetCard = document.getElementById(`${targetId}`);
+            console.log(`card html was found ${targetCard}`);
+            
+            const targetObj = user_deck.find(c => c.id === targetId);
+            console.log(`card obj was found ${targetObj} by id ${targetId}`);
+
+        
+            if (targetCard && targetObj) {
+            console.log(`all good`);
+
+                targetObj.hp -= attackerDamage;
+                const healthSpan = targetCard.querySelector('#card_health');
+                healthSpan.textContent = targetObj.hp;
+        
+                if (targetObj.hp <= 0) {
+                    targetCard.remove();
+                    console.log(`${targetObj.name} has been defeated.`);
+                }
+            }
+        }
+        
     });
+
     socket.on('update_opponent_cards', (cards) => {
         // Logic to update the UI with opponent cards
         append_opp_card_table(cards); // Implement this function to refresh the UI

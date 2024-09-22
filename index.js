@@ -75,6 +75,18 @@ io.on('connection', (socket) => {
 
     });
 
+    socket.on("attack_opponent", (newHP) =>{
+
+        io.to(`room by ${players[0]}`).emit('got_attacked', newHP);
+
+    });
+
+    socket.on("attack_card", ({ attackerId, targetId, attackerDamage }) =>{
+
+        io.to(`room by ${players[0]}`).emit('opponent_attacked_card', { attackerId, targetId, attackerDamage });
+
+    });
+
 });
 
 
