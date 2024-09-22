@@ -319,6 +319,7 @@
     
         selectedCard.classList.remove('selected');
         selectedCard = null;
+        checkWinCondition();
         endTurn();
     }
     
@@ -352,6 +353,7 @@
   
         selectedCard.classList.remove('selected');
         selectedCard = null;
+        checkWinCondition();
         endTurn();
     }
 
@@ -392,7 +394,30 @@
         });
     }
     
+    function checkWinCondition() {
+        // Retrieve the health points from the displayed spans
+        const user1Health = parseInt(document.getElementById('user_1_health').textContent.split('/')[0].split(': ')[1]);
+        const user2Health = parseInt(document.getElementById('user_2_health').textContent.split('/')[0].split(': ')[1]);
     
+        if (user1Health <= 0) {
+            displayWinLossMessage('Player 2 Wins!'); 
+        } else if (user2Health <= 0) {
+            displayWinLossMessage('Player 1 Wins!');
+        }
+    }
+      function displayWinLossMessage(message) {
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('win-loss-message');
+        messageContainer.innerHTML = `
+          <h1>${message}</h1>
+          <button onclick="restartGame()">Start New Game</button>
+        `;
+        document.body.appendChild(messageContainer);
+      }
+  
+      function restartGame() {
+        location.reload();
+      }
 
 </script>
 

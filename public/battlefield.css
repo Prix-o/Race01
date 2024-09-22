@@ -267,4 +267,37 @@ html,body{
         border: 2px solid red;
         cursor: pointer;
     }
-    
+
+/* Styles for Win/Loss Message */
+.win-loss-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 40px;
+    border: 5px solid #ff0000;
+    border-radius: 15px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.win-loss-message h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.win-loss-message button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border: none;
+    background-color: #ff0000;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.win-loss-message button:hover {
+    background-color: #ff4500;
+}
