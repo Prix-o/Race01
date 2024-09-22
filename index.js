@@ -42,7 +42,6 @@ let turn = 0;
 io.on('connection', (socket) => {
     console.log('user connected:' + socket.id)
 
-
     socket.on('find_game', () =>{
         players.push(socket.id);
         socket.join(`room by ${players[0]}`);
@@ -52,11 +51,7 @@ io.on('connection', (socket) => {
             
             io.to(`room by ${players[0]}`).emit('start');
             io.to(`room by ${players[0]}`).emit('change_turn', players[turn]);
-
-
         }
-
-        
     });
 
     socket.on("my_login", (login) =>{
@@ -81,8 +76,6 @@ io.on('connection', (socket) => {
     });
 
 });
-
-
 
 
 
