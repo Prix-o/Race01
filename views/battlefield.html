@@ -296,6 +296,7 @@
             append_user_card_table(obj)
             console.log(`card appended with id ${obj.id}`)
             card.remove()
+            socket.emit("place_card", obj);
         }
         
 
@@ -320,9 +321,10 @@
     init_deck(user_deck);
     init_deck(default_deck);
 
+    card_index = 0
     shuffleArray(user_deck);
-    for (let index = 0; index < 3; index++) {
-        append_user_card_hand(user_deck[index]);
+    for (; card_index < 3; card_index++) {
+        append_user_card_hand(user_deck[card_index]);
 
     }
     for (let index = 0; index < 3; index++) {
@@ -359,11 +361,37 @@
         if (socket.id === player_id) {
             turn = true;
             console.log("MY TURN")
+
+            if(card_index <=19) {
+                append_user_card_hand(user_deck[card_index]);
+                card_index+=1
+                document.getElementById("player_1_currency").textContent = "10"
+            }
+            
             startTimer();
         }
         else{
             turn = false;
             console.log("not my turn((")
+            append_opp_card_hand()
+            document.getElementById("player_2_currency").textContent = "10"
+
+        }
+
+    });
+
+    socket.on('card_placed', (obj) =>{
+        if(!turn) {
+            const currency = document.getElementById("player_2_currency")
+            let resourse = parseInt(currency.textContent)
+
+                resourse = resourse - obj.cost
+                currency.textContent = `${resourse}`
+                append_opp_card_table(obj);
+                document.getElementById("user_2_hand").lastChild.remove()
+                console.log(`card appended with id ${obj.id}`)
+
+
 
         }
 

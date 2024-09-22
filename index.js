@@ -73,6 +73,13 @@ io.on('connection', (socket) => {
         io.to(`room by ${players[0]}`).emit('change_turn', players[turn]);
 
     });
+
+    socket.on("place_card", (obj) =>{
+
+        io.to(`room by ${players[0]}`).emit('card_placed', obj);
+
+    });
+
 });
 
 
