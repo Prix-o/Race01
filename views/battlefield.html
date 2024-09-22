@@ -8,10 +8,7 @@
   <link rel="stylesheet" href="battlefield.css">
   <script src="/socket.io/socket.io.js"></script>
 </head>
-
-
 <body>
-
     <div class="field">
         <div class="player_bar">
             <img class="deck" src="assets/card_red.jpeg" alt="deck">
@@ -56,7 +53,7 @@
 
 
 
-
+    <!-- here is timer logic -->
     <!-- timer -->
     <script>
         let timerInterval;
@@ -85,25 +82,19 @@
                 startTimer(); // Restart the timer for the next turn
                 socket.emit('change_turn');
 
-            }
-
-            
+            } 
         }
     
         document.getElementById('end_turn').addEventListener('click', () => {
-
-
             if(turn){
                 clearInterval(timerInterval);
                 endTurn();
 
             }
-
-
         });
         // window.onload = startTimer;
     </script>    
-
+    <!-- end of timer logic -->
 
 
 <!-- cards script -->
@@ -185,15 +176,10 @@
 
         card.addEventListener("click", () =>{
             if(turn) play_card(obj);
-            
         });
 
         hand.appendChild(card);
-
         console.log("card appended succesfully")
-
-
-
     }
 
     function append_opp_card_hand() {
@@ -210,80 +196,154 @@
         console.log("opp card appended succesfully")
 
     }
+    let selectedCard = null; // To keep track of the selected card
 
 
-    function append_user_card_table(obj) {    //створює картку від юзера на столі
+
+
+    function append_user_card_table(obj) { // creates the user card on the battlefield
         const hand = document.getElementById("table_user_1");
         const card = document.createElement("div");
-        card.innerHTML = ` <div class="circle">
-                            <img id="curr" src="assets/currency.png" alt="cost">
-                            <span id="card_cost">${obj.cost}</span>
-                
-                        </div>
-                        <img id="charecter" src="assets/${obj.name}.jpg" alt="hero">
-                        <div class="blank">
-                            <span class = "name">${obj.name}</span>
-                            <br>
-                            <div class="health">
-                                <img id="health" src="assets/health.png" alt="health">
-                                <span id="card_health">${obj.hp}</span>
-                            </div>
-                            <div class="atk">
-                                <span id="card_atk">${obj.atk}</span>
-                                <img id="atk" src="assets/atk.png" alt="atk">
-                            </div>
-                        </div>`
-
-
+        card.innerHTML = `
+            <div class="circle">
+                <img id="curr" src="assets/currency.png" alt="cost">
+                <span id="card_cost">${obj.cost}</span>
+            </div>
+            <img id="charecter" src="assets/${obj.name}.jpg" alt="hero">
+            <div class="blank">
+                <span class="name">${obj.name}</span>
+                <br>
+                <div class="health">
+                    <img id="health" src="assets/health.png" alt="health">
+                    <span id="card_health">${obj.hp}</span>
+                </div>
+                <div class="atk">
+                    <span id="card_atk">${obj.atk}</span>
+                    <img id="atk" src="assets/atk.png" alt="atk">
+                </div>
+            </div>`;
+    
         card.classList.add("background");
-        card.id = `${obj.id}`
-
-        // card.addEventListener("click", () =>{         //можлтвість атакувати тут
-
-        // });
-
+        card.id = `${obj.id}`;
+    
+        // Add the attack logic here
+        card.addEventListener("click", () => {
+            if (turn) {
+                selectCardForAttack(card, obj); // Select this card for attacking
+                
+            }
+        });
+    
         hand.appendChild(card);
-
-        console.log("card appended succesfully")
-
-
-
+        console.log("User card appended successfully");
     }
-
-    function append_opp_card_table(obj) {        //створює картку від суперника на столі (через сокети)
+    
+    function append_opp_card_table(obj) { // creates the opponent's card on the battlefield
         const hand = document.getElementById("table_user_2");
         const card = document.createElement("div");
-        card.innerHTML = ` <div class="circle">
-                            <img id="curr" src="assets/currency.png" alt="cost">
-                            <span id="card_cost">${obj.cost}</span>
-                
-                        </div>
-                        <img id="charecter" src="assets/${obj.name}.jpg" alt="hero">
-                        <div class="blank">
-                            <span class = "name">${obj.name}</span>
-                            <br>
-                            <div class="health">
-                                <img id="health" src="assets/health.png" alt="health">
-                                <span id="card_health">${obj.hp}</span>
-                            </div>
-                            <div class="atk">
-                                <span id="card_atk">${obj.atk}</span>
-                                <img id="atk" src="assets/atk.png" alt="atk">
-                            </div>
-                        </div>`
-
-
+        card.innerHTML = `
+            <div class="circle">
+                <img id="curr" src="assets/currency.png" alt="cost">
+                <span id="card_cost">${obj.cost}</span>
+            </div>
+            <img id="charecter" src="assets/${obj.name}.jpg" alt="hero">
+            <div class="blank">
+                <span class="name">${obj.name}</span>
+                <br>
+                <div class="health">
+                    <img id="health" src="assets/health.png" alt="health">
+                    <span id="card_health">${obj.hp}</span>
+                </div>
+                <div class="atk">
+                    <span id="card_atk">${obj.atk}</span>
+                    <img id="atk" src="assets/atk.png" alt="atk">
+                </div>
+            </div>`;
+    
         card.classList.add("background");
-        card.id = `${obj.id}`
-
+        card.id = `${obj.id}`;
+    
+        // Add the attack logic here
+        card.addEventListener("click", () => {
+            if (turn && selectedCard) {
+                attack(selectedCard, card, obj); // Attack this opponent's card
+            }
+        });
+    
         hand.appendChild(card);
-
-        console.log("card appended succesfully")
-
-
-
+        console.log("Opponent's card appended successfully");
     }
+    
+    function selectCardForAttack(card, obj) {
+        // Deselect previously selected card
+        if (selectedCard) {
+            selectedCard.classList.remove('selected');
+        }
+        // Select the new card
+        selectedCard = card;
+        card.classList.add('selected');
+        console.log(`${obj.name} is selected for attack.`);
+    }
+    
+    function attack(attackerCard, targetCard, targetObj) {
+        const attackerObj = user_deck.find(c => c.id === parseInt(attackerCard.id.split('_')[1]));
+    
+        if (!attackerObj || !targetObj) {
+          console.error("Invalid card selected for attack.");
+          return;
+        }
+    
+        targetObj.hp -= attackerObj.atk;
+        const healthSpan = targetCard.querySelector('#card_health');
+        healthSpan.textContent = targetObj.hp;
 
+        socket.emit('attack_card', {
+            attackerId: attackerObj.id,
+            targetId: targetObj.id,
+            attackerDamage: attackerObj.atk
+        });
+    
+        console.log(`${attackerObj.name} attacked ${targetObj.name} and dealt ${attackerObj.atk} damage.`);
+    
+        if (targetObj.hp <= 0) {
+          targetCard.remove();
+          console.log(`${targetObj.name} has been defeated.`);
+        }
+    
+        // Emit the attack event to the server
+    
+        selectedCard.classList.remove('selected');
+        selectedCard = null;
+    }
+    
+
+      function attackOpponent(attackerCard, opponentId) {
+        console.log(attackerCard);
+        console.log(user_deck);
+        console.log(attackerCard.id.split('_')[1]);
+        const attackerObj = user_deck.find(c => c.id === attackerCard.id);
+  
+        if (!attackerObj) {
+          console.error("Invalid attacker card selected.");
+          return;
+        }
+  
+        const opponentHealthSpan = document.getElementById(`${opponentId}_health`);
+        let currentHP = parseInt(opponentHealthSpan.textContent.split('/')[0].split(': ')[1]);
+  
+        currentHP -= attackerObj.atk;
+        opponentHealthSpan.textContent = `HP: ${Math.max(0, currentHP)}/30`;
+  
+        console.log(`${attackerObj.name} attacked ${opponentId} directly and dealt ${attackerObj.atk} damage.`);
+  
+        if (currentHP <= 0) {
+          alert(`${opponentId} has been defeated!`);
+          console.log(`${opponentId} has been defeated.`);
+        }
+  
+        selectedCard.classList.remove('selected');
+        selectedCard = null;
+      }
 
     function play_card(obj){
         const currency = document.getElementById("player_1_currency")
@@ -297,10 +357,31 @@
             console.log(`card appended with id ${obj.id}`)
             card.remove()
         }
-        
-
-
     }
+
+    function updateOpponentCardDisplay(cards) {
+        const opponentArea = document.getElementById('table_user_2'); // Assuming an HTML container for opponent cards
+        opponentArea.innerHTML = ''; // Clear the previous state
+    
+        cards.forEach(card => {
+            // Create card elements and append them to the opponent's card area
+            const cardElement = document.createElement('div');
+            cardElement.className = 'table_user_2';
+            cardElement.id = `table_user_2.${card.id}`;
+            cardElement.innerHTML = `
+                <div class="card">
+                    <img src="assets/${card.name}.jpg" alt="${card.name}">
+                    <div class="card-info">
+                        <span class="name">${card.name}</span>
+                        <span class="hp">HP: ${card.hp}</span>
+                        <span class="atk">ATK: ${card.atk}</span>
+                    </div>
+                </div>`;
+            opponentArea.appendChild(cardElement);
+        });
+    }
+    
+    
 
 </script>
 
@@ -354,6 +435,8 @@
 
     });
 
+
+
     socket.on('change_turn', (player_id) =>{
 
         if (socket.id === player_id) {
@@ -370,8 +453,43 @@
     });
 
     
+    socket.on('opponent_attacked', ({ attackerId, targetId, attackerDamage }) => {
+        const targetCard = document.getElementById(`card_${targetId}`);
+        const targetObj = user_deck.find(c => c.id === targetId);
+    
+        if (targetCard && targetObj) {
+            targetObj.hp -= attackerDamage;
+            const healthSpan = targetCard.querySelector('#card_health');
+            healthSpan.textContent = targetObj.hp;
+    
+            if (targetObj.hp <= 0) {
+                targetCard.remove();
+                console.log(`${targetObj.name} has been defeated.`);
+            }
+        }
+    });
+    socket.on('update_opponent_cards', (cards) => {
+        // Logic to update the UI with opponent cards
+        append_opp_card_table(cards); // Implement this function to refresh the UI
+    });
+    
+
+    document.body.addEventListener('click', (event) => {
+        if (event.target.classList.contains('play_area') && selectedCard) {
+          // Example to attack another card
+          const targetCard = event.target.closest('.background');
+          const targetObj = user_deck.find(c => `card_${c.id}` === targetCard.id);
+  
+          attack(selectedCard, targetCard, targetObj);
+        } else if (event.target.closest('#user_2') && selectedCard) {
+          // Example to attack the opponent directly
+          attackOpponent(selectedCard, 'user_2');
+        }
+      });
 
 
   </script>
 </body>
 </html>
+
+

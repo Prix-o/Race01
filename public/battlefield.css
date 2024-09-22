@@ -262,3 +262,9 @@ html,body{
         font-size: 11px;
     }
 
+
+    .selected {
+        border: 2px solid red;
+        cursor: pointer;
+    }
+    
